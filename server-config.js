@@ -7,8 +7,6 @@ var handler = require('./lib/request-handler');
 
 var app = express();
 
-mongoose.connect('mongodb://localhost/shortly');
-
 app.configure(function() {
   app.set('views', __dirname + '/views');
   app.set('view engine', 'ejs');
