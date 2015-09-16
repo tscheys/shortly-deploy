@@ -3,7 +3,6 @@ var express = require('express');
 var expect = require('chai').expect;
 var app = require('../server-config.js');
 
-var db = require('../app/config');
 var User = require('../app/models/user');
 var Link = require('../app/models/link');
 
@@ -13,7 +12,8 @@ var Link = require('../app/models/link');
 
 var User = require('../app/models/user');
 var Link = require('../app/models/link');
-('', function() {
+describe('MongoDB refactor tests', function() {
+  console.log("HI THERE");
 
   beforeEach(function(done) {
     // Log out currently signed in user
