@@ -8,7 +8,6 @@ if (process.env.NODE_ENV === 'production') {
   mongoUrl = 'mongodb://theBuffetDB:XAbbOqi7mdlEs4oagW6taZLFB6ADVccJcq.UoK.yQaE-@ds040888.mongolab.com:40888/theBuffetDB'
 }
 else {
-  port = 4568
   mongoUrl = 'mongodb://localhost/shortly'
 }
 
