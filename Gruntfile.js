@@ -55,12 +55,39 @@ module.exports = function(grunt) {
       css: {
         files: 'public/*.css',
         tasks: ['cssmin']
+      },
+      test: {
+        files: '**/*',
+        tasks: ['mochaTest']
       }
     },
 
     shell: {
       prodServer: {
       }
+    },
+    exec: {
+      deploy: {
+        // cmd: 'echo "hey"',
+        cmd: function(message) {
+          console.log('message is : ' + grunt.config('cmsg'));
+          return 'git add . && git commit -m ' + grunt.config('cmsg') + ' && git push origin master'
+        }
+        // cmd: 'git commit . && git commit -m $cmsg && git push marcus-new master'
+      }
+    },
+    prompt: {
+      deploy: {
+        options: {
+          questions: [
+            {
+              config: 'cmsg',
+              type: 'input',
+              message: 'Enter your commit messag : '
+            }
+          ]
+        },
+      },
     },
   });
 
@@ -72,6 +99,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-nodemon');
+  grunt.loadNpmTasks('grunt-exec');
+  grunt.loadNpmTasks('grunt-prompt');
 
   grunt.registerTask('server-dev', function (target) {
     // Running nodejs in a different process and displaying output on the main console
@@ -86,10 +115,13 @@ module.exports = function(grunt) {
     grunt.task.run([ 'watch' ]);
   });
 
+  grunt.registerTask('deploy', ['prompt:deploy', 'exec:deploy']);
+
   ////////////////////////////////////////////////////
   // Main grunt tasks
   ////////////////////////////////////////////////////
 
+  grunt.registerTask('testWatch', ['watch:test']); 
   grunt.registerTask('test', [
     'mochaTest'
   ]);
@@ -99,15 +131,16 @@ module.exports = function(grunt) {
 
   grunt.registerTask('upload', function(n) {
     if(grunt.option('prod')) {
+
       // add your production server task here
     } else {
       grunt.task.run([ 'server-dev' ]);
     }
   });
 
-  grunt.registerTask('deploy', [
-      // add your production server task here
-  ]);
+  // grunt.registerTask('deploy', [
+  //     // add your production server task here
+  // ]);
 
 
 };
